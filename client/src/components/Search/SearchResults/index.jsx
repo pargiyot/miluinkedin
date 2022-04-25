@@ -4,7 +4,7 @@ import PEOPLE_SKILLS from '../../../assets/mocks/PEOPLE_SKILLS.json'
 import PEOPLE_TAGS from '../../../assets/mocks/PEOPLE_TAGS.json'
 import TAGS from '../../../assets/mocks/TAGS.json'
 import SKILLS from '../../../assets/mocks/SKILLS.json'
-import { useNavigate  } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 import { Avatar, Chip, Grid, List, ListItem, ListItemAvatar, ListItemText, Stack, Typography } from '@mui/material'
 import _ from 'lodash'
@@ -20,7 +20,7 @@ const SearchResults = ({ searchText }) => {
 
 
     return (
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} style={{cursor: 'pointer' }}>
+        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} style={{ cursor: 'pointer' }}>
             {filteredPeopleByName.map(p => {
                 const peopleSkills = PEOPLE_SKILLS.filter(ps => ps.personId === p.id)
                 const peopleTags = PEOPLE_TAGS.filter(pt => pt.personId === p.id)
@@ -42,7 +42,7 @@ const SearchResults = ({ searchText }) => {
                                     </Grid>
 
                                     <Grid item>
-                                        {tagsInfo.map(tag => <Chip size='small' label={tag.name} className='chip' />)}
+                                        {tagsInfo.map(tag => <Chip style={{ marginLeft: '5px' }} size='small' label={tag.name} className='chip' />)}
                                     </Grid>
                                 </Grid>
                             }
