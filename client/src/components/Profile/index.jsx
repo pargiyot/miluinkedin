@@ -55,7 +55,7 @@ const Tags = ({ tags }) => {
   return (
     <div className="profile-tags">
       {tags.map((tag) => (
-        <Chip label={tag.name} className="profile-tags-tag"></Chip>
+        <Chip key={tag.id} label={tag.name} className="profile-tags-tag"></Chip>
       ))}
     </div>
   );

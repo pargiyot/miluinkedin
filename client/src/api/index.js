@@ -56,6 +56,7 @@ export const reservistById = async(id) => {
                 score
               }
               tags {
+                id
                 name
               }
             }
