@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Grid, TextField, Typography, Button } from '@mui/material'
 import { createReserver } from '../../api';
 import { useFormik } from 'formik'
 
 const Manage = () => {
+    const [isSaveSuccess, setIsSaveSuccess] = useState(null)
+
     const formik = useFormik({
         initialValues: {
             imageUrl: '',
@@ -15,9 +17,13 @@ const Manage = () => {
         enableReinitialize: true,
         onSubmit: async (values) => {
             const { imageUrl, linkedinName, linkedinURL, name, rank } = values
-
-            const userId = await createReserver(imageUrl, linkedinName, linkedinURL, name, rank)
-            alert(userId)
+            try {
+                const userId = await createReserver(imageUrl, linkedinName, linkedinURL, name, rank)
+                setIsSaveSuccess(true)
+            }
+            catch (err) {
+                setIsSaveSuccess(false)
+            }
         },
     });
 
@@ -66,6 +72,11 @@ const Manage = () => {
                     <Grid item>
                         <Button onClick={formik.handleSubmit}>לזמן דחוף</Button>
                     </Grid>
+                    {isSaveSuccess !== null &&
+                        <Grid item>
+                            {isSaveSuccess ? 'נשמר בהצלחה' : 'נכשל בשמירה'}
+                        </Grid>
+                    }
                 </Grid>
             </Grid>
         </Grid>
