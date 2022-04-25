@@ -1,5 +1,6 @@
 import "./index.css";
 import experiencesMock from "../../assets/mocks/EXPERIENCE.json";
+import Timeline from "./Timeline";
 
 const Profile = ({ link, name, experience = experiencesMock }) => {
   link =
@@ -13,7 +14,10 @@ const Profile = ({ link, name, experience = experiencesMock }) => {
       <img className="profile-img" src={link}></img>
       <div className="profile-details">
         <div className="profile-name">{name}</div>
-        <div className="profile-current-role">{currentRole.role} at {currentRole.organization}</div>
+        <div className="profile-current-role">
+          {currentRole.role} at {currentRole.organization}
+        </div>
+        <Timeline experienceArray={experiencesMock}></Timeline>
       </div>
     </div>
   );
