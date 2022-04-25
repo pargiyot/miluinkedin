@@ -53,6 +53,7 @@ export const getAllReservists = async() => {
         query: gql `
         query getAllReservists {
           reservists {
+          id
           image_url
           linkedin_name
           linkedin_url
