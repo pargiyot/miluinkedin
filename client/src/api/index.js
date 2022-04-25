@@ -66,6 +66,7 @@ export const getAllReservists = async() => {
             end_date
           }
           skills {
+            id
             name
             score
           }
