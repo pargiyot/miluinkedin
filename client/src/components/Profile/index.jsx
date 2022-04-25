@@ -10,13 +10,23 @@ import TAGS from "../../assets/mocks/TAGS.json";
 import PEOPLE from "../../assets/mocks/PEOPLE.json";
 import { Chip } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {reservistById} from "../../api";
 
 const Profile = ({ name, experience = experiencesMock }) => {
+  const [profile,setProfile] = useState(undefined);
+
   let { personId } = useParams();
 
-  const currentPerson = PEOPLE.find((p) => p.id == personId);
+  useEffect(() => {
+    const loadProfile = async () =>{
+        const p = await reservistById(personId);
+        setProfile(p);
+    }
 
-  const link = currentPerson.imgURL;
+    loadProfile();
+  })
+
   const currentRole = experience
     .filter((ex) => ex.personId == personId)
     .find((x) => x.endDate == null);
@@ -28,9 +38,9 @@ const Profile = ({ name, experience = experiencesMock }) => {
   return (
     <div className="profile-container">
       <div className="profile-background"></div>
-      <img className="profile-img" src={link}></img>
+      <img className="profile-img" src={profile ? profile.image_url : ""}></img>
       <div className="profile-details">
-        <div className="profile-name">{name}</div>
+        <div className="profile-name">{profile ? profile.name : ""}</div>
         <div className="profile-current-role">
           {currentRole
             ? currentRole.role + " at " + currentRole.organization
