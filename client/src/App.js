@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/" >
             <Route index element={<Search />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:personId" element={<Profile />} />
             <Route path="search" element={<Search />} />
             <Route path="manage" element={<Manage />} />
           </Route>
