@@ -1,6 +1,10 @@
 import "./index.css";
-import experiencesMock from "../../assets/mocks/EXPERIENCE.json";
 import Timeline from "./Timeline";
+import Skills from "./Skills";
+
+import experiencesMock from "../../assets/mocks/EXPERIENCE.json";
+import peopleSkills from "../../assets/mocks/PEOPLE_SKILLS.json";
+import skills from "../../assets/mocks/SKILLS.json";
 
 const Profile = ({ link, name, experience = experiencesMock }) => {
   link =
@@ -19,6 +23,8 @@ const Profile = ({ link, name, experience = experiencesMock }) => {
             ? currentRole.role + " at " + currentRole.organization
             : "unemployed"}
         </div>
+        <Skills skills={peopleSkills.map(s => ({text: skills.find(skill => skill.id == s.skillId).name, value: s.votes}))}>
+        </Skills>
         <Timeline experienceArray={experiencesMock}></Timeline>
       </div>
     </div>

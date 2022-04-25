@@ -6,5 +6,21 @@
     {
         "id": 2,
         "name": "Oracle DBA"
+    },
+    {
+        "id": 3,
+        "name": "PG DBA"
+    },
+    {
+        "id": 4,
+        "name": "Android Developer"
+    },
+    {
+        "id": 5,
+        "name": "NodeJS"
+    },
+    {
+        "id": 6,
+        "name": "C#"
     }
 ]

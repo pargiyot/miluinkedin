@@ -3,7 +3,7 @@ import PEOPLE from '../../../assets/mocks/PEOPLE.json'
 import PEOPLE_SKILLS from '../../../assets/mocks/PEOPLE_SKILLS.json'
 import PEOPLE_TAGS from '../../../assets/mocks/PEOPLE_TAGS.json'
 import TAGS from '../../../assets/mocks/TAGS.json'
-import SKILLS from '../../../assets/mocks/Skills.json'
+import SKILLS from '../../../assets/mocks/SKILLS.json'
 
 import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material'
 import _ from 'lodash'
