@@ -3,22 +3,32 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState } from "react";
 import './index.css';
 import SearchResults from './SearchResults'
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
+import { useAnimate } from 'react-simple-animate';
+import React, { useEffect } from 'react';
+
 
 export default () => {
     const [searchText, setSearchText] = useState('')
+
+    const { style: headerTransitionStyle, play: playHeaderTransition } = useAnimate({ start: { marginTop: 'calc(50vh - 30px - 130px)' }, end: { marginTop: 0 } });
+
+    useEffect(() => {
+        playHeaderTransition(searchText)
+    }, [searchText])
 
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
-        <div className="container" style={{height: '100%'}}>
+        <div className="container" style={{ height: '100%' }}>
             <Grid container direction="column" justify="center" align="center" spacing={2} style={{ height: '100%', margin: 0 }}>
-                <Grid item>
+                <Grid item style={headerTransitionStyle}>
+                    <Typography variant='h2'>המילואימניקים</Typography>
+
+
                     <input
-                        style={{
-                            width: matches ? 370 : 700
-                        }}
+                        style={{ width: matches ? 370 : 700, marginTop: 30 }}
                         className="search-input"
                         placeholder="חפש מילואימניק"
                         value={searchText}
@@ -26,10 +36,10 @@ export default () => {
                     />
                 </Grid>
 
-                {searchText &&
-                    <Grid item>
-                        <SearchResults searchText={searchText} />
-                    </Grid>}
+
+                <Grid item>
+                    {searchText && <SearchResults searchText={searchText} />}
+                </Grid>
             </Grid>
         </div>
     )
