@@ -79,8 +79,8 @@ export const getAllReservists = async () => {
       `
   });
 
-  console.log(reservits)
-  return reservits;
+  console.log(reservists)
+  return reservists.data.reservists;
 }
 
 export const createReserver = async (imageUrl, linkedinName, linkedinURL, name, rank) => {
