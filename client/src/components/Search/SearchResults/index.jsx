@@ -28,6 +28,9 @@ const SearchResults = ({ searchText, skills, tags, reservists }) => {
 
                     const skillsInfo = p.skills
                     const tagsInfo = p.tags
+                    
+                    const firstSkills = skillsInfo.slice(0, 3)
+                    const moreSkillsCount = skillsInfo.length - 3
 
                     return (
                         <ListItem key={p.id} alignItems="flex-start" id={p.id} onClick={handleClick} style={{ cursor: 'pointer' }}>
@@ -39,7 +42,7 @@ const SearchResults = ({ searchText, skills, tags, reservists }) => {
                                 secondary={
                                     <Grid container direction="column">
                                         <Grid item>
-                                            {_.join(skillsInfo.map(skill => skill.name), ', ')}
+                                            {_.join(firstSkills.map(skill => skill.name), ', ') + ' And ' + moreSkillsCount + ' More'}
                                         </Grid>
 
                                         <Grid item>
