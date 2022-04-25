@@ -1,4 +1,5 @@
 import "./index.css";
+import Timeline from "./Timeline";
 
 const Profile = ({ link }) => {
   link =
@@ -8,6 +9,8 @@ const Profile = ({ link }) => {
     <div className='profile-container'>
       <div className="profile-background"></div>
       <img className="profile-img" src={link}></img>
+
+      <Timeline></Timeline>
     </div>
   );
 };
