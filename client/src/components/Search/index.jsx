@@ -28,7 +28,7 @@ export default () => {
 
 
                     <input
-                        style={{ width: matches ? 370 : 700, marginTop: 30 }}
+                        style={{ width: matches ? 350 : 700, marginTop: 30 }}
                         className="search-input"
                         placeholder="חפש מילואימניק"
                         value={searchText}
