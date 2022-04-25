@@ -6,6 +6,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Typography from '@mui/material/Typography';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
+import Tooltip from "@mui/material/Tooltip";
 
 export default ({experienceArray}) => {
 
@@ -24,12 +25,15 @@ export default ({experienceArray}) => {
           <TimelineDot color={isMiluim ? "success" : "primary"} />
           <TimelineConnector />
         </TimelineSeparator>
-        <TimelineContent sx={{ py: '12px', px: 2 }}>
-          <Typography variant="h6" component="span">
-            {role}
-          </Typography>
-          <Typography>{organization}</Typography>
-        </TimelineContent>
+        <Tooltip      
+          title={isMiluim ? `${rate} starts, ${comment}`: ""}>
+          <TimelineContent sx={{ py: '12px', px: 2 }}>
+            <Typography variant="h6" component="span">
+              {role}
+            </Typography>
+            <Typography>{organization}</Typography>
+          </TimelineContent>
+        </Tooltip>
       </TimelineItem>
     )
   }
@@ -42,7 +46,7 @@ export default ({experienceArray}) => {
 
   return (
     <Timeline>
-     {loadTimeLinesItems()}
+      {loadTimeLinesItems()}
     </Timeline>
   );
 }
