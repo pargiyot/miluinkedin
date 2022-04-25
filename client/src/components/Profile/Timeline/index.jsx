@@ -9,7 +9,7 @@ import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 
 export default ({experienceArray}) => {
 
-  const getExperienceBlock = ({personId,startDate,endDate,organization,role,rate,comment}) => {
+  const getExperienceBlock = ({personId,startDate,endDate,organization,role,isMiluim,rate,comment}) => {
     return (
       <TimelineItem>
         <TimelineOppositeContent
@@ -21,7 +21,7 @@ export default ({experienceArray}) => {
           {startDate} - {endDate}
         </TimelineOppositeContent>
         <TimelineSeparator>
-          <TimelineDot />
+          <TimelineDot color={isMiluim ? "success" : "primary"} />
           <TimelineConnector />
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>

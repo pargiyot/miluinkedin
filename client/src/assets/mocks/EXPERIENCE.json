@@ -6,6 +6,7 @@
         "endDate": "20/2/2022",
         "organization": "Microsoft",
         "role": "software engineer",
+        "isMiluim": false,
         "rate": null,
         "comment": null
     }
