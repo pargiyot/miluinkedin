@@ -3,10 +3,10 @@ import Timeline from "./Timeline";
 
 const Profile = ({ link }) => {
   link =
-    "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg";
+    "https://media-exp1.licdn.com/dms/image/C4D03AQHwdI64crX-6Q/profile-displayphoto-shrink_400_400/0/1606576176064?e=1656547200&v=beta&t=XvRLVfxnaoLrzV08QWSUwQjyBOU3QeK5J8okKcOOkG8";
 
   return (
-    <div className='profile-container'>
+    <div className="profile-container">
       <div className="profile-background"></div>
       <img className="profile-img" src={link}></img>
 
