@@ -1,14 +1,19 @@
 .profile-img {
   border-radius: 100%;
   position: fixed;
-  height: '2vh';
-  top: 0;
+  height: 20vh;
+  top: 10vh;
+  border-color: white;
+  border-width: 8px;
+  border-style: solid;
 }
 
 .profile-background {
   background-color: black;
-  height: 20vh;
+  background-image: url("https://wallpaperaccess.com/full/7823422.jpg");
+  height: 25vh;
   width: 100%;
+  background-size: cover;
 }
 
 .profile-container {
