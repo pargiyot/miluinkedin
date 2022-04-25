@@ -1,6 +1,6 @@
 .profile-img {
   border-radius: 100%;
-  position: fixed;
+  position: absolute;
   height: 20vh;
   top: 10vh;
   border-color: white;

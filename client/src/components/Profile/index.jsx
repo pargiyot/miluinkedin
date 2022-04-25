@@ -28,15 +28,22 @@ const Profile = ({ link, name, experience = experiencesMock }) => {
             ? currentRole.role + " at " + currentRole.organization
             : "unemployed"}
         </div>
-        <div className='profile-tags'>
-          {tagsInfo.map((tag) => (
-            <Chip label={tag.name} className='profile-tags-tag'></Chip>
-          ))}
-        </div>
+        <Tags tags={tagsInfo} />
         <Timeline experienceArray={experiencesMock}></Timeline>
       </div>
     </div>
   );
 };
+
+const Tags = ({ tags }) => {
+  return (
+    <div className="profile-tags">
+      {tags.map((tag) => (
+        <Chip label={tag.name} className="profile-tags-tag"></Chip>
+      ))}
+    </div>
+  );
+};
+
 
 export default Profile;
