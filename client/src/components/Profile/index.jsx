@@ -7,19 +7,19 @@ import skills from "../../assets/mocks/SKILLS.json";
 import experiencesMock from "../../assets/mocks/EXPERIENCE.json";
 import PEOPLE_TAGS from "../../assets/mocks/PEOPLE_TAGS.json";
 import TAGS from "../../assets/mocks/TAGS.json";
+import PEOPLE from '../../assets/mocks/PEOPLE.json'
 import { Chip } from "@mui/material";
+import { useParams } from "react-router-dom";
 
-const Profile = ({ link, name, experience = experiencesMock }) => {
-  link =
-    "https://media-exp1.licdn.com/dms/image/C4D03AQHwdI64crX-6Q/profile-displayphoto-shrink_400_400/0/1606576176064?e=1656547200&v=beta&t=XvRLVfxnaoLrzV08QWSUwQjyBOU3QeK5J8okKcOOkG8";
-  name = "ofie elart";
-  const currentRole = experience.filter((x) => x.endDate == null)[0];
+const Profile = ({ name, experience = experiencesMock }) => {
+  let { personId } = useParams();
 
-  const peopleTags = PEOPLE_TAGS.filter((pt) => pt.personId === 1);
+  const currentPerson = PEOPLE.find(p => p.id == personId)
 
-  const tagsInfo = peopleTags.map((pTag) =>
-    TAGS.find((t) => t.id === pTag.tagId)
-  );
+  const link = currentPerson.imgURL
+  const currentRole = experience.filter(ex => ex.personId == personId).find(x => x.endDate == null)
+  const peopleTags = PEOPLE_TAGS.filter((pt) => pt.personId == personId)
+  const tagsInfo = peopleTags.map((pTag) => TAGS.find((t) => t.id == pTag.tagId))
 
   return (
     <div className="profile-container">
@@ -32,6 +32,8 @@ const Profile = ({ link, name, experience = experiencesMock }) => {
             ? currentRole.role + " at " + currentRole.organization
             : "unemployed"}
         </div>
+        <Skills skills={peopleSkills.map(s => ({ text: skills.find(skill => skill.id == s.skillId).name, value: s.votes }))}>
+        </Skills>
         <Tags tags={tagsInfo} />
         <div className="border"></div>
         <Skills
