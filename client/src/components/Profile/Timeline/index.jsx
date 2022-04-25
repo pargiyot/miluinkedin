@@ -35,8 +35,6 @@ export default ({experienceArray}) => {
   }
 
   const loadTimeLinesItems = () => {
-    console.log(experienceArray);
-
     if(experienceArray){
       return experienceArray.map(exp => getExperienceBlock(exp));
     }
