@@ -14,9 +14,9 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-export const getAllSkills = async() => {
-    const skills = await client.query({
-        query: gql `
+export const getAllSkills = async () => {
+  const skills = await client.query({
+    query: gql`
     query getSkills {
       skills: skills_aggregate(distinct_on: name) {
         nodes {
@@ -26,14 +26,14 @@ export const getAllSkills = async() => {
       }
     }
     `
-    });
+  });
 
-    return skills.data.skills.nodes
+  return skills.data.skills.nodes
 }
 
-export const getAllTags = async() => {
-    const tags = await client.query({
-        query: gql `
+export const getAllTags = async () => {
+  const tags = await client.query({
+    query: gql`
   query getTags {
     tags: tags_aggregate(distinct_on: name) {
       nodes {
@@ -43,14 +43,14 @@ export const getAllTags = async() => {
     }
   }
   `
-    });
+  });
 
-    return tags.data.tags.nodes
+  return tags.data.tags.nodes
 }
 
-export const getAllReservists = async() => {
-    const reservists = await client.query({
-        query: gql `
+export const getAllReservists = async () => {
+  const reservists = await client.query({
+    query: gql`
         query getAllReservists {
           reservists {
           id
@@ -115,12 +115,13 @@ export const createReserver = async (imageUrl, linkedinName, linkedinURL, name, 
       }`
   });
 
-    return reservists.data.reservists;
+  console.log(reservitId.data.insert_reservists.returning[0].id)
+  return reservitId.data.insert_reservists.returning[0].id;
 }
 
-export const reservistById = async(id) => {
-    const reservist = await client.query({
-        query: gql `
+export const reservistById = async (id) => {
+  const reservist = await client.query({
+    query: gql`
             query getReservistById($id: uuid!) {
               reservist: reservists_by_pk(id: $id) {
               image_url
