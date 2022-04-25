@@ -47,7 +47,7 @@ export default () => {
 
     return (
         <div className="container" style={{ height: '100%' }}>
-            <Grid container direction="column" justify="center" align="center" spacing={2} style={{ height: '100%', margin: 0 }}>
+            <Grid container direction="column" justify="center" align="center" spacing={2} style={{margin: 0 }}>
                 <Grid item style={headerTransitionStyle}>
                     <Typography variant='h2'>המילואימניקים</Typography>
 

@@ -15,7 +15,7 @@ const SearchResults = ({ searchText, skills, tags, reservists }) => {
 
 
     const filteredPeople = [...new Set([...filteredPeopleByName, ...findPeopleIdWithSkillId, ...findPeopleIdWithTagId])]
-
+    
     const handleClick = (e) => {
         navigate(`/profile/${e.currentTarget.id}`)
     }
@@ -30,7 +30,7 @@ const SearchResults = ({ searchText, skills, tags, reservists }) => {
                     const tagsInfo = p.tags
 
                     return (
-                        <ListItem alignItems="flex-start" id={p.id} onClick={handleClick} style={{ cursor: 'pointer' }}>
+                        <ListItem key={p.id} alignItems="flex-start" id={p.id} onClick={handleClick} style={{ cursor: 'pointer' }}>
                             <ListItemAvatar>
                                 <Avatar alt={`${p.name}-img`} src={p.image_url} />
                             </ListItemAvatar>
