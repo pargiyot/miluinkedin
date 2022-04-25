@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "personId": 1,
+        "startDate": "2/2/2022",
+        "endDate": "20/2/2022",
+        "organization": "Microsoft",
+        "role": "software engineer",
+        "rate": null,
+        "comment": null
+    }
+]
