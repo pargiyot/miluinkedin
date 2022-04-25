@@ -2,21 +2,15 @@ import "./index.css";
 import Timeline from "./Timeline";
 import Skills from "./Skills";
 
-import peopleSkills from "../../assets/mocks/PEOPLE_SKILLS.json";
-import skills from "../../assets/mocks/SKILLS.json";
-import experiencesMock from "../../assets/mocks/EXPERIENCE.json";
-import PEOPLE_TAGS from "../../assets/mocks/PEOPLE_TAGS.json";
-import TAGS from "../../assets/mocks/TAGS.json";
-import PEOPLE from "../../assets/mocks/PEOPLE.json";
 import { Chip } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {reservistById} from "../../api";
 
-const Profile = ({ name, experience = experiencesMock }) => {
-  const [profile,setProfile] = useState(undefined);
+const Profile = () => {
+  const [profile, setProfile] = useState(undefined);
 
-  let { personId } = useParams();
+  const { personId } = useParams();
 
   useEffect(() => {
     const loadProfile = async () =>{
@@ -25,17 +19,11 @@ const Profile = ({ name, experience = experiencesMock }) => {
     }
 
     loadProfile();
-  })
+  }, [personId])
 
-  const currentRole = experience
-    .filter((ex) => ex.personId == personId)
-    .find((x) => x.endDate == null);
-  const peopleTags = PEOPLE_TAGS.filter((pt) => pt.personId == personId);
-  const tagsInfo = peopleTags.map((pTag) =>
-    TAGS.find((t) => t.id == pTag.tagId)
-  );
+  const currentRole = profile ? profile.experiences.find((x) => x.endDate === null) : undefined;
 
-  return (
+  return profile ? (
     <div className="profile-container">
       <div className="profile-background"></div>
       <img className="profile-img" src={profile ? profile.image_url : ""}></img>
@@ -46,21 +34,21 @@ const Profile = ({ name, experience = experiencesMock }) => {
             ? currentRole.role + " at " + currentRole.organization
             : "unemployed"}
         </div>
-        <Tags tags={tagsInfo} />
+        <Tags tags={profile.tags} />
         <div className="border"></div>
         <div className="profile-skills">
           <Skills
-            skills={peopleSkills.map((s) => ({
-              text: skills.find((skill) => skill.id == s.skillId).name,
-              value: s.votes
+            skills={profile.skills.map((s) => ({
+              text: s.name,
+              value: s.score
             }))}
           />
         </div>
         <div className="border"></div>
-        <Timeline experienceArray={experiencesMock}></Timeline>
+        <Timeline experienceArray={profile.experiences}></Timeline>
       </div>
     </div>
-  );
+  ) : <div />;
 };
 
 const Tags = ({ tags }) => {

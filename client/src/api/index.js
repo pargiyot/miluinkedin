@@ -4,20 +4,20 @@ import {
     ApolloProvider,
     useQuery,
     gql
-  } from "@apollo/client";
+} from "@apollo/client";
 
-  const client = new ApolloClient({
+const client = new ApolloClient({
     uri: 'https://innocent-lemming-13.hasura.app/v1/graphql',
     headers: {
         "x-hasura-admin-secret": "zmqjascyz7YrkFric7zip7QHF0ZQaeODUkm6N1vpLi3ckPvKfuO64j3QOM0uhPbh"
     },
     cache: new InMemoryCache()
-  });
+});
 
 
-  export const getAllReservists = async () => {
+export const getAllReservists = async() => {
     const reservits = await client.query({
-      query: gql`
+        query: gql `
         query AllReservists {
             reservists {
             id
@@ -32,23 +32,39 @@ import {
 
     console.log(reservits)
     return reservits;
-  }
+}
 
 //   "e317da3c-5387-4d4b-9cc8-d83c627abcbd"
-  export const reservistById = async (id) =>{
+export const reservistById = async(id) => {
     const reservist = await client.query({
-        query: gql`
-            query MyQuery {
-                reservists_by_pk(id: "${id}") {
-                id
-                image_url
-                linkedin_url
+        query: gql `
+            query myQuery($id: uuid!) {
+              reservist: reservists_by_pk(id: $id) {
+              image_url
+              linkedin_name
+              linkedin_url
+              name
+              rank
+              experiences {
+                company
+                role
+                start_date
+                end_date
+              }
+              skills {
                 name
-                rank
-                }
+                score
+              }
+              tags {
+                name
+              }
             }
-        `
+          }
+        `,
+        variables: {
+            id
+        }
     });
 
-    return reservist.data.reservists_by_pk;
-  }
+    return reservist.data.reservist;
+}
