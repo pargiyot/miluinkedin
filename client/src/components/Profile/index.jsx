@@ -7,19 +7,23 @@ import skills from "../../assets/mocks/SKILLS.json";
 import experiencesMock from "../../assets/mocks/EXPERIENCE.json";
 import PEOPLE_TAGS from "../../assets/mocks/PEOPLE_TAGS.json";
 import TAGS from "../../assets/mocks/TAGS.json";
-import PEOPLE from '../../assets/mocks/PEOPLE.json'
+import PEOPLE from "../../assets/mocks/PEOPLE.json";
 import { Chip } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 const Profile = ({ name, experience = experiencesMock }) => {
   let { personId } = useParams();
 
-  const currentPerson = PEOPLE.find(p => p.id == personId)
+  const currentPerson = PEOPLE.find((p) => p.id == personId);
 
-  const link = currentPerson.imgURL
-  const currentRole = experience.filter(ex => ex.personId == personId).find(x => x.endDate == null)
-  const peopleTags = PEOPLE_TAGS.filter((pt) => pt.personId == personId)
-  const tagsInfo = peopleTags.map((pTag) => TAGS.find((t) => t.id == pTag.tagId))
+  const link = currentPerson.imgURL;
+  const currentRole = experience
+    .filter((ex) => ex.personId == personId)
+    .find((x) => x.endDate == null);
+  const peopleTags = PEOPLE_TAGS.filter((pt) => pt.personId == personId);
+  const tagsInfo = peopleTags.map((pTag) =>
+    TAGS.find((t) => t.id == pTag.tagId)
+  );
 
   return (
     <div className="profile-container">
@@ -32,16 +36,16 @@ const Profile = ({ name, experience = experiencesMock }) => {
             ? currentRole.role + " at " + currentRole.organization
             : "unemployed"}
         </div>
-        <Skills skills={peopleSkills.map(s => ({ text: skills.find(skill => skill.id == s.skillId).name, value: s.votes }))}>
-        </Skills>
         <Tags tags={tagsInfo} />
         <div className="border"></div>
-        <Skills
-          skills={peopleSkills.map((s) => ({
-            text: skills.find((skill) => skill.id == s.skillId).name,
-            value: s.votes,
-          }))}
-        />
+        <div className="profile-skills">
+          <Skills
+            skills={peopleSkills.map((s) => ({
+              text: skills.find((skill) => skill.id == s.skillId).name,
+              value: s.votes
+            }))}
+          />
+        </div>
         <div className="border"></div>
         <Timeline experienceArray={experiencesMock}></Timeline>
       </div>
