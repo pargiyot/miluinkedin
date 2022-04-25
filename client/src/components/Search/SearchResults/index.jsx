@@ -5,7 +5,7 @@ import PEOPLE_TAGS from '../../../assets/mocks/PEOPLE_TAGS.json'
 import TAGS from '../../../assets/mocks/TAGS.json'
 import SKILLS from '../../../assets/mocks/Skills.json'
 
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material'
+import { Avatar, Chip, Grid, List, ListItem, ListItemAvatar, ListItemText, Stack, Typography } from '@mui/material'
 import _ from 'lodash'
 
 const SearchResults = ({ searchText }) => {
@@ -19,7 +19,7 @@ const SearchResults = ({ searchText }) => {
                 const peopleTags = PEOPLE_TAGS.filter(pt => pt.personId === p.id)
 
                 const skillsInfo = peopleSkills.map(pSkill => SKILLS.find(skill => skill.id === pSkill.skillId))
-                const tagsInfo = peopleTags.map(pSkill => SKILLS.find(skill => skill.id === pSkill.skillId))
+                const tagsInfo = peopleTags.map(pTag => TAGS.find(tag => tag.id === pTag.tagId))
 
                 return (
                     <ListItem alignItems="flex-start">
@@ -29,18 +29,15 @@ const SearchResults = ({ searchText }) => {
                         <ListItemText
                             primary={p.name}
                             secondary={
-                                <React.Fragment>
-                                    <Typography
-                                        sx={{ display: 'inline' }}
-                                        component="span"
-                                        variant="body2"
-                                        color="text.primary"
-                                    >
-                                        {p.rank}, {p.servePosition}
-                                    </Typography>
+                                <Grid container direction="column">
+                                    <Grid item>
+                                        {_.join(skillsInfo.map(skill => skill.name), ', ')}
+                                    </Grid>
 
-                                    {_.join(skillsInfo.map(skill => skill.name), '~')}
-                                </React.Fragment>
+                                    <Grid item>
+                                        {tagsInfo.map(tag => <Chip size='small' label={tag.name} className='chip' />)}
+                                    </Grid>
+                                </Grid>
                             }
                         />
                     </ListItem>
