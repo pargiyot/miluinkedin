@@ -6,7 +6,6 @@ import Profile from './components/Profile';
 import Manage from './components/Manage';
 import Search from './components/Search';
 import './App.css';
-import rtlPlugin from "stylis-plugin-rtl";
 
 function App() {
   const theme = createTheme({
