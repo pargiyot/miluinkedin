@@ -22,5 +22,13 @@
     {
         "id": 6,
         "name": "C#"
+    },
+    {
+        "id": 7,
+        "name": "javascript"
+    },
+    {
+        "id": 8,
+        "name": ".NET core"
     }
 ]
