@@ -14,19 +14,68 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
+export const getAllSkills = async() => {
+    const skills = await client.query({
+        query: gql `
+    query getSkills {
+      skills: skills_aggregate(distinct_on: name) {
+        nodes {
+          name
+          id    
+        }
+      }
+    }
+    `
+    });
 
-export const getAllReservists = async () => {
-  const reservits = await client.query({
-    query: gql`
-        query AllReservists {
-            reservists {
+    return skills.data.skills.nodes
+}
+
+export const getAllTags = async() => {
+    const tags = await client.query({
+        query: gql `
+  query getTags {
+    tags: tags_aggregate(distinct_on: name) {
+      nodes {
+        name
+        id    
+      }
+    }
+  }
+  `
+    });
+
+    return tags.data.tags.nodes
+}
+
+export const getAllReservists = async() => {
+    const reservists = await client.query({
+        query: gql `
+        query getAllReservists {
+          reservists {
+          id
+          image_url
+          linkedin_name
+          linkedin_url
+          name
+          rank
+          experiences {
+            company
+            role
+            start_date
+            end_date
+          }
+          skills {
             id
-            image_url
-            linkedin_url
             name
-            rank
-            }
-        }      
+            score
+          }
+          tags {
+            id
+            name
+          }
+        }
+      }     
       `
   });
 
@@ -66,15 +115,13 @@ export const createReserver = async (imageUrl, linkedinName, linkedinURL, name, 
       }`
   });
 
-  console.log(reservitId.data.insert_reservists.returning[0].id)
-  return reservitId.data.insert_reservists.returning[0].id;
+    return reservists.data.reservists;
 }
 
-//   "e317da3c-5387-4d4b-9cc8-d83c627abcbd"
-export const reservistById = async (id) => {
-  const reservist = await client.query({
-    query: gql`
-            query myQuery($id: uuid!) {
+export const reservistById = async(id) => {
+    const reservist = await client.query({
+        query: gql `
+            query getReservistById($id: uuid!) {
               reservist: reservists_by_pk(id: $id) {
               image_url
               linkedin_name
