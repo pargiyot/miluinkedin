@@ -1,4 +1,4 @@
-export const Profile = (props) => {
+export default (props) => {
  return <div>
      Profile!!!!
  </div>
