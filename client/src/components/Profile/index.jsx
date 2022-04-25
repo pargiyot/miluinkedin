@@ -5,7 +5,7 @@ import Skills from "./Skills";
 import { Chip } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {reservistById} from "../../api";
+import { reservistById } from "../../api";
 
 const Profile = () => {
   const [profile, setProfile] = useState(undefined);
@@ -13,15 +13,17 @@ const Profile = () => {
   const { personId } = useParams();
 
   useEffect(() => {
-    const loadProfile = async () =>{
-        const p = await reservistById(personId);
-        setProfile(p);
-    }
+    const loadProfile = async () => {
+      const p = await reservistById(personId);
+      setProfile(p);
+    };
 
     loadProfile();
-  }, [personId])
+  }, [personId]);
 
-  const currentRole = profile ? profile.experiences.find((x) => x.endDate === null) : undefined;
+  const currentRole = profile
+    ? profile.experiences.find((x) => x.endDate === null)
+    : undefined;
 
   return profile ? (
     <div className="profile-container">
@@ -31,7 +33,7 @@ const Profile = () => {
         <div className="profile-name">{profile ? profile.name : ""}</div>
         <div className="profile-current-role">
           {currentRole
-            ? currentRole.role + " at " + currentRole.organization
+            ? currentRole.role + " at " + currentRole.company
             : "unemployed"}
         </div>
         <Tags tags={profile.tags} />
@@ -40,7 +42,7 @@ const Profile = () => {
           <Skills
             skills={profile.skills.map((s) => ({
               text: s.name,
-              value: s.score
+              value: s.score,
             }))}
           />
         </div>
@@ -48,7 +50,9 @@ const Profile = () => {
         <Timeline experienceArray={profile.experiences}></Timeline>
       </div>
     </div>
-  ) : <div />;
+  ) : (
+    <div />
+  );
 };
 
 const Tags = ({ tags }) => {
