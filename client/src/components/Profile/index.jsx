@@ -15,7 +15,9 @@ const Profile = ({ link, name, experience = experiencesMock }) => {
       <div className="profile-details">
         <div className="profile-name">{name}</div>
         <div className="profile-current-role">
-          {currentRole.role} at {currentRole.organization}
+          {currentRole
+            ? currentRole.role + " at " + currentRole.organization
+            : "unemployed"}
         </div>
         <Timeline experienceArray={experiencesMock}></Timeline>
       </div>
