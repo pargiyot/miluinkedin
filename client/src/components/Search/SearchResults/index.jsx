@@ -42,7 +42,8 @@ const SearchResults = ({ searchText, skills, tags, reservists }) => {
                                 secondary={
                                     <Grid container direction="column">
                                         <Grid item>
-                                            {_.join(firstSkills.map(skill => skill.name), ', ') + ' And ' + moreSkillsCount + ' More'}
+                                            {_.join(firstSkills.map(skill => skill.name), ', ')}
+                                            {moreSkillsCount > 0 ? ' And ' + moreSkillsCount + ' More' : ''}
                                         </Grid>
 
                                         <Grid item>
