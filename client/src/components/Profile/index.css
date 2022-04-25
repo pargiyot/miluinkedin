@@ -33,3 +33,22 @@
 .profile-name {
   font-size: 2rem;
 }
+
+.profile-tags {
+  border-style: solid;
+  border-color: rgb(211, 211, 211);
+  border-width: 8px;
+  border-right-width: 0;
+  border-left-width: 0;
+  border-top-width: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;  
+  padding: 4vh;
+  padding-top: 2vh;
+  align-content: space-between;
+}
+
+.profile-tags-tag {
+  margin: 0 4px
+}
