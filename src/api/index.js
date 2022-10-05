@@ -227,3 +227,39 @@ mutation insert_tag($reservist_id: uuid!, $name: String!) {
   }
 }
 `
+
+export const insertFavoriteReservist =gql`
+mutation insert_favorite_reservist($reservist_id: uuid!, $user_id: String!) {
+  insert_favorites_reservists(objects: {reservist_id: $reservist_id, user_id: $user_id}) {
+    affected_rows
+  }
+}
+`
+
+export const getFavoriteById = gql`
+query get_favorite_by_id($reservist_id: uuid!) {
+  favorites_reservists(where: {reservist_id: {_eq: $reservist_id}}) {
+    reservist_id
+    user_id
+  }
+}
+
+`
+
+export const getAllMyFavorites = gql`
+query get_all_my_favorites {
+  favorites_reservists {
+    reservist_id
+    user_id
+  }
+}
+`
+
+export const deleteFavoriteReservist = gql`
+mutation deleteFavoriteReservist($reservist_id: uuid!) {
+  delete_favorites_reservists(where: {reservist_id: {_eq: $reservist_id}}) {
+    affected_rows
+  }
+}
+
+`

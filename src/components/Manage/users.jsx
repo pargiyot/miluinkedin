@@ -17,6 +17,9 @@ const AllUsersList = () => {
         mador_id: madorId,
         user_id: userId,
       },
+      refetchQueries: [
+         'get_all_users'
+      ]     
     });
   };
   const handleClick = (e) => {
