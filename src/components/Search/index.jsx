@@ -6,37 +6,19 @@ import SearchResults from './SearchResults'
 import { Grid, Typography } from '@mui/material'
 import { useAnimate } from 'react-simple-animate';
 import React, { useEffect } from 'react';
-import { getAllReservists, getAllSkills, getAllTags } from '../../api'
-
+import { getAllReservists, getAllSkills, getAllTags, reservistById } from '../../api'
+import { useQuery } from '@apollo/client'
 
 export default () => {
     const [searchText, setSearchText] = useState('')
-    const [skills, setSkills] = useState([])
-    const [tags, setTags] = useState([])
-    const [reservists, setReservists] = useState([])
 
     const { style: headerTransitionStyle, play: playHeaderTransition } = useAnimate({ start: { marginTop: 'calc(50vh - 30px - 130px)' }, end: { marginTop: 0 } });
-
-    useEffect(() => {
-        const loadSkills = async () =>{
-            const s = await getAllSkills();
-            setSkills(s);
-        }
-
-        const loadTags = async() => {
-            const t = await getAllTags();
-            setTags(t);
-        }
-
-        const loadReservists = async () => {
-            const r = await getAllReservists();
-            setReservists(r)
-        }
-    
-        loadSkills();
-        loadTags();
-        loadReservists();
-    })
+    const allResevists = useQuery(getAllReservists)
+    const reservists = allResevists.data ? allResevists.data.reservists : [] 
+    const allTags = useQuery(getAllTags)
+    const tags = allTags.data ? allTags.data.tags.nodes : []
+    const allSkills = useQuery(getAllSkills)
+    const skills = allSkills.data ? allSkills.data.skills.nodes : []
 
     useEffect(() => {
         playHeaderTransition(searchText)

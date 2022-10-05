@@ -1,155 +1,229 @@
 import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
   gql
 } from "@apollo/client";
 
-const client = new ApolloClient({
-  uri: 'https://innocent-lemming-13.hasura.app/v1/graphql',
-  headers: {
-    "x-hasura-admin-secret": "zmqjascyz7YrkFric7zip7QHF0ZQaeODUkm6N1vpLi3ckPvKfuO64j3QOM0uhPbh"
-  },
-  cache: new InMemoryCache()
-});
-
-export const getAllSkills = async () => {
-  const skills = await client.query({
-    query: gql`
-    query getSkills {
-      skills: skills_aggregate(distinct_on: name) {
-        nodes {
-          name
-          id    
-        }
-      }
+export const getAllReservists = gql`
+query getAllReservists {
+  reservists {
+    experiences {
+      company
+      end_date
+      id
+      role
+      start_date
     }
-    `
-  });
-
-  return skills.data.skills.nodes
+    id
+    image_url
+    linkedin_name
+    linkedin_url
+    name
+    rank
+    skills {
+      id
+      name
+      score
+    }
+    tags {
+      id
+      name
+    }
+  }
 }
+`
+export const getAllSkills = gql`
+query getSkills {
+  skills: skills_aggregate(distinct_on: name) {
+    nodes {
+      name
+      id    
+    }
+  }
+}`
 
-export const getAllTags = async () => {
-  const tags = await client.query({
-    query: gql`
-  query getTags {
-    tags: tags_aggregate(distinct_on: name) {
-      nodes {
+export const getAllTags = gql`
+query getTags {
+  tags: tags_aggregate(distinct_on: name) {
+    nodes {
+      id
+      name
+    }
+  }
+}
+`
+
+export const createReserver = gql`
+mutation insert_reserva(
+  $imageUrl: String, 
+  $linkedinName: String, 
+  $linkedinURL: String, 
+  $name: String, 
+  $rank: String
+ ) {
+ insert_reservists(
+   objects: {
+     image_url: $imageUrl, 
+     linkedin_name: $linkedinName, 
+     linkedin_url: $linkedinURL,
+     name: $name, 
+     rank: $rank, 
+   }) {
+   returning {
+     id
+   }
+ }
+}`
+
+export const reservistById = gql`
+query getReservistById($id: uuid!) {
+  reservist: reservists_by_pk(id: $id) {
+    image_url
+    linkedin_name
+    linkedin_url
+    name
+    rank
+    experiences {
+      company
+      role
+      start_date
+      end_date
+    }
+    skills {
+      name
+      score
+    }
+    tags {
+      id
+      name
+    }
+    reserves_histories {
+      days_num
+      description
+      id
+      rating
+      year
+      month
+    }
+    mador {
+      mador_id
+    }   
+  }
+}
+`
+
+export const addReservesHistory = gql`
+mutation insert_reserves_history(
+  $days_num: Int, 
+  $description: String
+  $month: Int, 
+  $rating: Int
+  $reservist_id: uuid, 
+  $year: Int, 
+  ) {
+      insert_reserves_history(
+        objects: {
+          days_num: $days_num, 
+          description: $description, 
+          month: $month, 
+          rating: $rating, 
+          reservist_id: $reservist_id, 
+          year: $year
+        }) {
+          returning {
+            reservist_id
+            year
+            rating
+            month
+            id
+            description
+            days_num
+        }
+    }
+  }`
+
+export const getMyMadorMembers = gql`
+query get_my_mador_members {
+  mador_members {
+    member {
+      email
+      name
+    }
+  }
+}
+`
+
+export const getMyMadorManagers = gql`
+query get_my_mador_managers($manager_id: String!) {
+  mador_managers(where: {manager_id: {_neq: $manager_id}}) {
+    mador_id
+    mador_manager_user {
+      email
+      name
+      user_id
+    }
+  }
+}
+`
+export const getMyMadorReservists = gql`
+query get_my_mador_reservists {
+  mador_reservists {
+    reservist {
+      experiences {
+        company
+        end_date
+        id
+        role
+        start_date
+      }
+      id
+      image_url
+      linkedin_name
+      linkedin_url
+      name
+      rank
+      skills {
+        id
         name
-        id    
+        score
+      }
+      tags {
+        id
+        name
       }
     }
   }
-  `
-  });
-
-  return tags.data.tags.nodes
+}
+`
+export const getAllUsers = gql
+`
+query get_all_users{
+  users(where: {_not: {mador_member: {}}, _and: {_not: {mador_manager: {}}}}) {
+    user_id
+    name
+    email
+  }
+}
+`
+export const insertMadorMember = gql
+`
+mutation inert_mador_member($mador_id: uuid!, $user_id: String!) {
+  insert_mador_members(objects: {mador_id: $mador_id, user_id: $user_id}) {
+    affected_rows
+  }
 }
 
-export const getAllReservists = async () => {
-  const reservists = await client.query({
-    query: gql`
-        query getAllReservists {
-          reservists {
-          id
-          image_url
-          linkedin_name
-          linkedin_url
-          name
-          rank
-          experiences {
-            company
-            role
-            start_date
-            end_date
-          }
-          skills {
-            id
-            name
-            score
-          }
-          tags {
-            id
-            name
-          }
-        }
-      }     
-      `
-  });
-
-  console.log(reservists)
-  return reservists.data.reservists;
+`
+export const insertMadorReservist = gql`
+mutation insert_mador_reservist($reservist_id: uuid!, $mador_id: uuid!) {
+  insert_mador_reservists(objects: {mador_id: $mador_id, reservist_id: $reservist_id}) {
+    affected_rows
+  }
 }
+`
 
-export const createReserver = async (imageUrl, linkedinName, linkedinURL, name, rank) => {
-  const reservitId = await client.mutate({
-    variables: {
-      imageUrl,
-      linkedinName,
-      linkedinURL,
-      name,
-      rank
-    },
-    mutation: gql`
-       mutation insert_reserva(
-         $imageUrl: String, 
-         $linkedinName: String, 
-         $linkedinURL: String, 
-         $name: String, 
-         $rank: String
-        ) {
-        insert_reservists(
-          objects: {
-            image_url: $imageUrl, 
-            linkedin_name: $linkedinName, 
-            linkedin_url: $linkedinURL,
-            name: $name, 
-            rank: $rank, 
-          }) {
-          returning {
-            id
-          }
-        }
-      }`
-  });
-
-  console.log(reservitId.data.insert_reservists.returning[0].id)
-  return reservitId.data.insert_reservists.returning[0].id;
+export const insertTag = gql`
+mutation insert_tag($reservist_id: uuid!, $name: String!) {
+  insert_tags(objects: {name: $name, reservist_id: $reservist_id}) {
+    affected_rows
+  }
 }
-
-export const reservistById = async (id) => {
-  const reservist = await client.query({
-    query: gql`
-            query getReservistById($id: uuid!) {
-              reservist: reservists_by_pk(id: $id) {
-              image_url
-              linkedin_name
-              linkedin_url
-              name
-              rank
-              experiences {
-                company
-                role
-                start_date
-                end_date
-              }
-              skills {
-                name
-                score
-              }
-              tags {
-                id
-                name
-              }
-            }
-          }
-        `,
-    variables: {
-      id
-    }
-  });
-
-  return reservist.data.reservist;
-}
+`

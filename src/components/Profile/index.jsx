@@ -1,28 +1,59 @@
 import "./index.css";
 import Timeline from "./Timeline";
 import Skills from "./Skills";
-
-import { Chip } from "@mui/material";
+import { Button, Chip, TextField } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { reservistById } from "../../api";
+import { reservistById, insertMadorReservist, insertTag } from "../../api";
+import { useQuery, useMutation } from "@apollo/client";
+import { useContext, useState } from "react";
+import { UserContext } from "../../context/user.context";
 
 const Profile = () => {
-  const [profile, setProfile] = useState(undefined);
-
   const { personId } = useParams();
+  const [userData] = useContext(UserContext);
+  const [newTag, setNewTag] = useState('')
+  const profileHook = useQuery(reservistById, {
+    variables: {
+      id: personId,
+    },
+  });
+  const [addMadorReservistHook, { data, loading, error }] =
+    useMutation(insertMadorReservist);
+  const [addTagHook] = useMutation(insertTag) 
 
-  useEffect(() => {
-    const loadProfile = async () => {
-      const p = await reservistById(personId);
-      setProfile(p);
-    };
-
-    loadProfile();
-  }, [personId]);
-
+  const addTag = async (reservist_id, name) => {
+    await addTagHook({
+      variables: {
+        reservist_id: reservist_id,
+        name: name
+      },
+      refetchQueries: [
+        'getReservistById'
+      ]
+    })
+  }
+  const handleAddReservist = async (reservist_id, mador_id) => {
+    await addMadorReservistHook({
+      variables: {
+        mador_id: mador_id,
+        reservist_id: reservist_id,
+      }
+    });
+  };
+  const handleClick = () => {
+    handleAddReservist(personId, userData.mador_id);
+  };
+  
+  const handleAddTag = () => {
+    addTag(personId, newTag)
+  }
+  const handleChangeTagName = (e) => {
+    setNewTag(e.currentTarget.value)
+  }
+  const profile = profileHook.data ? profileHook.data.reservist : undefined;
+  const mador = profile && profile.mador && profile.mador.length !== 0 ? profile.mador[0].mador_id : undefined
   const currentRole = profile
-    ? profile.experiences.find((x) => x.endDate === null)
+    ? profile.experiences.find((x) => x.end_date === null)
     : undefined;
 
   return profile ? (
@@ -37,6 +68,25 @@ const Profile = () => {
             : "unemployed"}
         </div>
         <Tags tags={profile.tags} />
+        {(mador && mador !== userData.mador_id) || !mador ? (
+          <Button
+            variant="contained"
+            sx={{ marginBottom: "15px" }}
+            onClick={handleClick}
+          >
+            הוספה למדור שלי
+          </Button>
+        ) : <>
+        <TextField id="new-tag" 
+          label="הוספת תגית" 
+          variant="outlined" 
+          onChange={handleChangeTagName}
+          value={newTag}
+        />
+          <Button onClick={handleAddTag}>
+              הוסף            
+          </Button>
+        </> }
         <div className="border"></div>
         <div className="profile-skills">
           <Skills
@@ -47,7 +97,12 @@ const Profile = () => {
           />
         </div>
         <div className="border"></div>
-        <Timeline experienceArray={profile.experiences}></Timeline>
+        <Timeline
+          experienceArray={profile.experiences.concat(
+            profile.reserves_histories
+          )}
+          personId={personId}
+        ></Timeline>
       </div>
     </div>
   ) : (
