@@ -13,6 +13,7 @@ import { useEffect, useState , useContext} from 'react';
 import MadorManagement from './components/Manage/madorManagement/madorManagement'
 import AllUsersList from './components/Manage/users';
 import { UserContext} from './context/user.context'
+import FavoriteList from './components/Manage/favorites';
 function App({ authState }) {
   const [isLoading, setIsLoading] = useState(true)
   const [role, setRoles] = useState(null)
@@ -83,6 +84,7 @@ function App({ authState }) {
               <Route path='reserve_history/:personId' element={<AddReservesDays  />} />
               <Route path='mymador' element={<MadorManagement />} />
               <Route path='users' element={<AllUsersList />} />
+              <Route path='favorites' element={<FavoriteList />} />
             </Route>
           </Routes>
         </BrowserRouter>

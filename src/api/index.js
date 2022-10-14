@@ -251,6 +251,42 @@ query get_all_my_favorites {
   favorites_reservists {
     reservist_id
     user_id
+    last_entered
+    reservist {
+      image_url
+      linkedin_name
+      linkedin_url
+      name
+      rank
+      id
+      last_update_date
+      experiences {
+        company
+        role
+        start_date
+        end_date
+      }
+      skills {
+        name
+        score
+      }
+      tags {
+        id
+        name
+      }
+      reserves_histories {
+        days_num
+        description
+        id
+        rating
+        year
+        month
+      }
+      mador {
+        mador_id
+      }   
+    }
+  
   }
 }
 `
@@ -261,5 +297,12 @@ mutation deleteFavoriteReservist($reservist_id: uuid!) {
     affected_rows
   }
 }
+`
 
+export const updateLastEnteredFavorite = gql`
+mutation updateLastEntered($user_id: String!) {
+  update_favorites_reservists(where: {user_id: {_eq: $user_id}}, _set: {last_entered: "now()"}) {
+    affected_rows
+  }
+}
 `
