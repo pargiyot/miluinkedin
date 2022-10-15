@@ -17,7 +17,7 @@ import _, { now } from "lodash";
 import { useEffect } from "react";
 const FavoriteList = () => {
   const [userData] = useContext(UserContext);
-  const favoriteHook = useQuery(getAllMyFavorites);
+  const favoriteHook = useQuery(getAllMyFavorites, { fetchPolicy: 'cache-and-network' });
   const myFavoriteList = favoriteHook.data
     ? favoriteHook.data.favorites_reservists
     : [];

@@ -13,7 +13,6 @@ const Manage = () => {
     useMutation(createReserver);
   const formik = useFormik({
     initialValues: {
-      imageUrl: "",
       linkedinName: "",
       linkedinURL: "",
       name: "",
@@ -21,9 +20,9 @@ const Manage = () => {
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
-      const { imageUrl, linkedinName, linkedinURL, name, rank } = values;
+      const { linkedinName, linkedinURL, name, rank } = values;
       await createReserverHook({
-        variables: { imageUrl, linkedinName, linkedinURL, name, rank },
+        variables: { linkedinName, linkedinURL, name, rank },
       });
       if (error) {
         setIsSaveSuccess(false);
@@ -85,7 +84,7 @@ const Manage = () => {
                   label="דרגה"
                 />
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <TextField
                   id="imageUrl"
                   name="imageUrl"
@@ -93,7 +92,7 @@ const Manage = () => {
                   onChange={formik.handleChange}
                   label="תמונה (לינק)"
                 />
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <Button onClick={formik.handleSubmit}>לזמן דחוף</Button>
               </Grid>

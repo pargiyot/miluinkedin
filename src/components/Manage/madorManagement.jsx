@@ -1,9 +1,11 @@
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   getMyMadorReservists,
   getMyMadorMembers,
   getMyMadorManagers,
-} from "../../../api";
+  deleteMadorReservist,
+  deleteMadorMembers
+} from "../../api";
 import {
   Avatar,
   Chip,
@@ -11,23 +13,28 @@ import {
   List,
   ListItem,
   ListItemAvatar,
+  ListItemButton,
   ListItemText,
   Typography,
 } from "@mui/material";
 import _ from "lodash";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { UserContext } from "../../../context/user.context";
+import { UserContext } from "../../context/user.context";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 
 const MadorManagement = () => {
   const navigate = useNavigate();
   const [userData] = useContext(UserContext);
-  const madorReservists = useQuery(getMyMadorReservists);
-  const madorMembers = useQuery(getMyMadorMembers);
+  const [deleteReservistMadorHook] = useMutation(deleteMadorReservist);
+  const [deleteMadorMemberHook] = useMutation(deleteMadorMembers)
+  const madorReservists = useQuery(getMyMadorReservists, { fetchPolicy: 'cache-and-network' });
+  const madorMembers = useQuery(getMyMadorMembers, { fetchPolicy: 'cache-and-network' });
   const madorManagers = useQuery(getMyMadorManagers, {
     variables: {
       manager_id: userData.user_id,
-    },
+    }
   });
 
   const reservistsList = madorReservists.data
@@ -40,6 +47,19 @@ const MadorManagement = () => {
   console.log("managerList", managerList);
   const handleClick = (e) => {
     navigate(`/profile/${e.currentTarget.id}`);
+  };
+  const handleDeleteReservist = (e) => {
+    deleteReservistMadorHook({
+      variables: { reservist_id: e.currentTarget.id },
+      refetchQueries: ["get_my_mador_reservists"],
+    });
+  };
+
+  const handleDeleteMember = (e) => {
+    deleteMadorMemberHook({
+      variables: { user_id: e.currentTarget.id },
+      refetchQueries: ["get_my_mador_members"],
+    });
   };
 
   return (
@@ -59,44 +79,56 @@ const MadorManagement = () => {
               const moreSkillsCount = skillsInfo.length - 3;
 
               return (
-                <ListItem
-                  key={p.id}
-                  alignItems="flex-start"
-                  id={p.id}
-                  onClick={handleClick}
-                  style={{ cursor: "pointer" }}
-                >
-                  <ListItemAvatar>
-                    <Avatar alt={`${p.name}-img`} src={p.image_url} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={p.name}
-                    secondary={
-                      <Grid container direction="column">
-                        <Grid item>
-                          {_.join(
-                            firstSkills.map((skill) => skill.name),
-                            ", "
-                          )}
-                          {moreSkillsCount > 0
-                            ? " And " + moreSkillsCount + " More"
-                            : ""}
-                        </Grid>
+                <Grid container>
+                  <Grid item>
+                    <ListItem
+                      key={p.id}
+                      alignItems="flex-start"
+                      id={p.id}
+                      onClick={handleClick}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <ListItemAvatar>
+                        <Avatar alt={`${p.name}-img`} src={p.image_url} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={p.name}
+                        secondary={
+                          <Grid container direction="column">
+                            <Grid item>
+                              {_.join(
+                                firstSkills.map((skill) => skill.name),
+                                ", "
+                              )}
+                              {moreSkillsCount > 0
+                                ? " And " + moreSkillsCount + " More"
+                                : ""}
+                            </Grid>
 
-                        <Grid item>
-                          {tagsInfo.map((tag) => (
-                            <Chip
-                              style={{ marginLeft: "5px", marginTop: "5px" }}
-                              size="small"
-                              label={tag.name}
-                              className="chip"
-                            />
-                          ))}
-                        </Grid>
-                      </Grid>
-                    }
-                  />
-                </ListItem>
+                            <Grid item>
+                              {tagsInfo.map((tag) => (
+                                <Chip
+                                  style={{
+                                    marginLeft: "5px",
+                                    marginTop: "5px",
+                                  }}
+                                  size="small"
+                                  label={tag.name}
+                                  className="chip"
+                                />
+                              ))}
+                            </Grid>
+                          </Grid>
+                        }
+                      />
+                    </ListItem>
+                  </Grid>
+                  <Grid item>
+                    <ListItemButton id={p.id} onClick={handleDeleteReservist}>
+                      <DeleteIcon style={{ color: "red" }} />
+                    </ListItemButton>
+                  </Grid>
+                </Grid>
               );
             })
           ) : (
@@ -143,11 +175,14 @@ const MadorManagement = () => {
               memberList.map((memberObj) => {
                 const member = memberObj.member;
                 return (
-                  <ListItem key={member.id}>
+                  <ListItem key={member.user_id}>
                     <ListItemText
                       primary={member.name}
                       secondary={member.email}
                     ></ListItemText>
+                     <ListItemButton id={member.user_id} onClick={handleDeleteMember}>
+                        <DeleteIcon style={{ color: "red" }} />
+                    </ListItemButton>
                   </ListItem>
                 );
               })

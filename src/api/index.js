@@ -53,7 +53,6 @@ query getTags {
 
 export const createReserver = gql`
 mutation insert_reserva(
-  $imageUrl: String, 
   $linkedinName: String, 
   $linkedinURL: String, 
   $name: String, 
@@ -61,7 +60,6 @@ mutation insert_reserva(
  ) {
  insert_reservists(
    objects: {
-     image_url: $imageUrl, 
      linkedin_name: $linkedinName, 
      linkedin_url: $linkedinURL,
      name: $name, 
@@ -146,6 +144,7 @@ query get_my_mador_members {
     member {
       email
       name
+      user_id
     }
   }
 }
@@ -302,6 +301,23 @@ mutation deleteFavoriteReservist($reservist_id: uuid!) {
 export const updateLastEnteredFavorite = gql`
 mutation updateLastEntered($user_id: String!) {
   update_favorites_reservists(where: {user_id: {_eq: $user_id}}, _set: {last_entered: "now()"}) {
+    affected_rows
+  }
+}
+`
+export const deleteMadorMembers = gql
+`
+mutation deleteMadorMember($user_id: String!) {
+  delete_mador_members(where: {user_id: {_eq: $user_id}}) {
+    affected_rows
+  }
+}
+`
+
+export const deleteMadorReservist = gql
+`
+mutation deleteMadorReservist($reservist_id: uuid!) {
+  delete_mador_reservists(where: {reservist_id: {_eq: $reservist_id}}) {
     affected_rows
   }
 }

@@ -10,7 +10,7 @@ import './App.css';
 import Navigation from './routes/navigation/navigation';
 import { ApolloProvider, client, InMemoryCache,ApolloClient, gql } from '@apollo/client';
 import { useEffect, useState , useContext} from 'react';
-import MadorManagement from './components/Manage/madorManagement/madorManagement'
+import MadorManagement from './components/Manage/madorManagement'
 import AllUsersList from './components/Manage/users';
 import { UserContext} from './context/user.context'
 import FavoriteList from './components/Manage/favorites';
@@ -28,7 +28,6 @@ function App({ authState }) {
     headers,
     cache: new InMemoryCache()
   });
-  console.log(userData)
   useEffect(() => {
     const loadPermission = async () => {
       const data = await client_pre_init.query({

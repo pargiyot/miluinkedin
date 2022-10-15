@@ -7,7 +7,6 @@ import { makeVar } from '@apollo/client'
 import { UserContext } from './context/user.context';
 import { Button } from '@mui/material';
 // import { getFirestore } from '@firebase/firestore';
-const provider = new firebase.auth.GoogleAuthProvider();
 
 // Find these options in your Firebase console
 firebase.initializeApp({
@@ -19,7 +18,9 @@ firebase.initializeApp({
   messagingSenderId: "569622480688",
 
 });
-// const db = getFirestore()
+
+const provider = new firebase.auth.GoogleAuthProvider();
+
 export default function Auth() {
   const [authState, setAuthState] = useState({ status: "loading" });
   const [userData, setUserData] = useContext(UserContext)

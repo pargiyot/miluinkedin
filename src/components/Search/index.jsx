@@ -5,7 +5,7 @@ import './index.css';
 import SearchResults from './SearchResults'
 import { Grid, Typography } from '@mui/material'
 import { useAnimate } from 'react-simple-animate';
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { getAllReservists, getAllSkills, getAllTags, reservistById } from '../../api'
 import { useQuery } from '@apollo/client'
 
