@@ -34,7 +34,6 @@ const Manage = () => {
 
   return (
     <>
-    {console.log('userData', userData)}
       {!userData.roles.includes("mador_manager") ? (
         <>אין לך הרשאה למסך זה</>
       ) : (

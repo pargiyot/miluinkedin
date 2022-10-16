@@ -94,7 +94,7 @@ export default function Auth() {
               <Button variant='contained' onClick={signOut}>התנתק</Button>
             </div>
           ) : (
-            <Button variant='contained' onClick={signInWithGoogle}>התחבר או הירשם באמצעות Google</Button>
+            <Button id='login' variant='contained' onClick={signInWithGoogle}>התחבר או הירשם באמצעות Google</Button>
           )}
         </div>
 

@@ -50,6 +50,9 @@ const Navigation = () => {
               הוספת אנשי מילואים למעקב
             </Link>
           )}
+          <Link className="nav-link" to="/stats">
+            סטטיסטיקה
+          </Link>
           <Badge
             badgeContent={newUpdates}
             color="primary"

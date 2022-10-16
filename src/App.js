@@ -1,7 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
 import Profile from './components/Profile';
 import Manage from './components/Manage';
 import AddReservesDays from './components/Manage/addReservesHistory'
@@ -14,6 +12,7 @@ import MadorManagement from './components/Manage/madorManagement'
 import AllUsersList from './components/Manage/users';
 import { UserContext} from './context/user.context'
 import FavoriteList from './components/Manage/favorites';
+import Stats from './components/Manage/stats';
 function App({ authState }) {
   const [isLoading, setIsLoading] = useState(true)
   const [role, setRoles] = useState(null)
@@ -83,6 +82,7 @@ function App({ authState }) {
               <Route path='reserve_history/:personId' element={<AddReservesDays  />} />
               <Route path='mymador' element={<MadorManagement />} />
               <Route path='users' element={<AllUsersList />} />
+              <Route path='stats' element={<Stats />} />
               <Route path='favorites' element={<FavoriteList />} />
             </Route>
           </Routes>

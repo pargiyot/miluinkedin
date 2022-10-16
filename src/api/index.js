@@ -322,3 +322,30 @@ mutation deleteMadorReservist($reservist_id: uuid!) {
   }
 }
 `
+
+export const countTagsByTag = gql`
+query count_tags_agg {
+  count_tags_agg {
+    tag_count
+    tag_name
+  }
+}
+`
+
+export const countSkillsBySkill = gql`
+query count_skills_agg {
+  count_skills_agg {
+    skill_count
+    skill_name
+  }
+}
+`
+
+export const countExpsByExp = gql`
+query count_exps_agg {
+  count_exps_agg {
+    exp_count
+    exp_name
+  }
+}
+`
